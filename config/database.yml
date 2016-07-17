@@ -1,0 +1,20 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+
+development:
+  <<: *default
+  database: honeycomb_development
+  username: postgres
+
+test:
+  <<: *default
+  database: honeycomb_test
+  username: postgres
+
+production:
+  <<: *default
+  database: honeycomb_production
+  username: honeycomb
+  password: <%= ENV['HONEYCOMB_DATABASE_PASSWORD'] %>
