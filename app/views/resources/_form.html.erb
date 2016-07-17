@@ -1,0 +1,46 @@
+<%= form_for(resource) do |f| %>
+  <% if resource.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(resource.errors.count, 'error') %> prohibited this resource from being saved:</h2>
+
+      <ul>
+      <% resource.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :title %>
+    <%= f.text_field :title %>
+  </div>
+
+  <div class="field">
+    <%= f.label :episode %>
+    <%= f.text_field :episode %>
+  </div>
+
+  <div class="field">
+    <%= f.label :year %>
+    <%= f.number_field :year %>
+  </div>
+
+  <div class="field">
+    <%= label_tag 'Duration [DD:HH:MM:SS]' %>
+    <% duration_array = resource.duration.split(':').map(&:to_i) %>
+    <%= select_tag('duration[days]', options_for_select((0..99).to_a, selected: duration_array[0])) %>
+    <%= select_hour(duration_array[1], prefix: :duration, field_name: :hours, use_two_digit_numbers: true) %>
+    <%= select_minute(duration_array[2], prefix: :duration, field_name: :minutes, use_two_digit_numbers: true) %>
+    <%= select_second(duration_array[3], prefix: :duration, field_name: :seconds, use_two_digit_numbers: true) %>
+  </div>
+
+  <div class="field">
+    <%= f.label :aspect_ratio %>
+    <%= f.select :aspect_ratio, options_for_select(Resource::ASPECT_RATIO_TYPES, selected: resource.aspect_ratio) %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
