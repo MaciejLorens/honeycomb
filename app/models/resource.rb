@@ -1,5 +1,7 @@
 class Resource < ApplicationRecord
 
+  audited
+
   ASPECT_RATIO_TYPES = %w(
     21:9
     16:9

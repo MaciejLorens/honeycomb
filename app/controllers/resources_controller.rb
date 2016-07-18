@@ -1,5 +1,5 @@
 class ResourcesController < ApplicationController
-  before_action :set_resource, only: [:show, :edit, :update, :destroy]
+  before_action :set_resource, only: [:show, :edit, :history, :update, :destroy]
 
   def index
     @resources = Resource.all
@@ -9,6 +9,10 @@ class ResourcesController < ApplicationController
   end
 
   def edit
+  end
+
+  def history
+    @revisions = @resource.revisions
   end
 
   def create

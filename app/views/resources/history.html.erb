@@ -1,0 +1,27 @@
+<% if @revisions.count == 1 %>
+    <h3>History for <%= @resource.delivery_id %> is empty</h3>
+<% else %>
+  <table>
+    <tr>
+      <th>DeliveryID</th>
+      <th>Title</th>
+      <th>Episode</th>
+      <th>Year</th>
+      <th>Duration</th>
+      <th>AspectRatio</th>
+    </tr>
+
+    <% prev_revision = nil %>
+    <% @revisions.each do |revision| %>
+      <tr>
+        <th class="<%= changed(prev_revision, revision, :delivery_id) %>"><%= revision.delivery_id %></th>
+        <th class="<%= changed(prev_revision, revision, :title) %>"><%= revision.title %></th>
+        <th class="<%= changed(prev_revision, revision, :episode) %>"><%= revision.episode %></th>
+        <th class="<%= changed(prev_revision, revision, :year) %>"><%= revision.year %></th>
+        <th class="<%= changed(prev_revision, revision, :duration) %>"><%= revision.duration %></th>
+        <th class="<%= changed(prev_revision, revision, :aspect_ratio) %>"><%= revision.aspect_ratio %></th>
+      </tr>
+        <% prev_revision = revision %>
+    <% end %>
+  </table>
+<% end %>

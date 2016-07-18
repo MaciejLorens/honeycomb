@@ -13,6 +13,9 @@ gem 'jbuilder', '~> 2.5'
 
 gem 'hirb'
 
+gem 'audited', github: 'collectiveidea/audited'
+gem 'rails-observers', github: 'rails/rails-observers'
+
 group :development, :test do
   gem 'byebug', platform: :mri
 end
