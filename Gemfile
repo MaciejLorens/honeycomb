@@ -12,6 +12,7 @@ gem 'turbolinks', '~> 5'
 gem 'jbuilder', '~> 2.5'
 
 gem 'hirb'
+gem 'twitter-bootstrap-rails'
 
 gem 'audited', github: 'collectiveidea/audited'
 gem 'rails-observers', github: 'rails/rails-observers'

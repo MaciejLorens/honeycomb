@@ -1,46 +1,65 @@
-<%= form_for(resource) do |f| %>
-  <% if resource.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(resource.errors.count, 'error') %> prohibited this resource from being saved:</h2>
+<%= form_for(resource, html: {class: 'form-horizontal'}) do |f| %>
+    <% if resource.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(resource.errors.count, 'error') %> prohibited this resource from being saved:</h2>
 
-      <ul>
-      <% resource.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
+          <ul>
+            <% resource.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
+
+    <div class="form-group">
+      <%= f.label :title, class: 'col-sm-2 control-label' %>
+      <div class="col-sm-4">
+        <%= f.text_field :title, class: 'form-control' %>
+      </div>
     </div>
-  <% end %>
 
-  <div class="field">
-    <%= f.label :title %>
-    <%= f.text_field :title %>
-  </div>
+    <div class="form-group">
+      <%= f.label :episode, class: 'col-sm-2 control-label' %>
+      <div class="col-sm-4">
+        <%= f.text_field :episode, class: 'form-control' %>
+      </div>
+    </div>
 
-  <div class="field">
-    <%= f.label :episode %>
-    <%= f.text_field :episode %>
-  </div>
+    <div class="form-group">
+      <%= f.label :year, class: 'col-sm-2 control-label' %>
+      <div class="col-sm-4">
+        <%= f.text_field :year, class: 'form-control' %>
+      </div>
+    </div>
 
-  <div class="field">
-    <%= f.label :year %>
-    <%= f.number_field :year %>
-  </div>
+    <div class="form-group">
+      <%= label_tag :aspect_ratio, 'Duration [DD:HH:MM:SS]', class: 'col-sm-2 control-label' %>
+      <% duration_array = resource.duration.split(':').map(&:to_i) %>
+      <div class="col-sm-1">
+        <%= select_tag('duration[days]', options_for_select(two_digits_options(99), selected: duration_array[0]), class: 'form-control') %>
+      </div>
+      <div class="col-sm-1">
+        <%= select_tag('duration[hours]', options_for_select(two_digits_options(23), selected: duration_array[1]), class: 'form-control') %>
+      </div>
+      <div class="col-sm-1">
+        <%= select_tag('duration[minutes]', options_for_select(two_digits_options(60), selected: duration_array[2]), class: 'form-control') %>
+      </div>
+      <div class="col-sm-1">
+        <%= select_tag('duration[seconds]', options_for_select(two_digits_options(60), selected: duration_array[3]), class: 'form-control') %>
+      </div>
+    </div>
 
-  <div class="field">
-    <%= label_tag 'Duration [DD:HH:MM:SS]' %>
-    <% duration_array = resource.duration.split(':').map(&:to_i) %>
-    <%= select_tag('duration[days]', options_for_select((0..99).to_a, selected: duration_array[0])) %>
-    <%= select_hour(duration_array[1], prefix: :duration, field_name: :hours, use_two_digit_numbers: true) %>
-    <%= select_minute(duration_array[2], prefix: :duration, field_name: :minutes, use_two_digit_numbers: true) %>
-    <%= select_second(duration_array[3], prefix: :duration, field_name: :seconds, use_two_digit_numbers: true) %>
-  </div>
+    <div class="form-group">
+      <%= f.label :aspect_ratio, class: 'col-sm-2 control-label' %>
+      <div class="col-sm-4">
+        <%= f.select :aspect_ratio, options_for_select(Resource::ASPECT_RATIO_TYPES, selected: resource.aspect_ratio), {}, class: 'form-control' %>
+      </div>
+    </div>
 
-  <div class="field">
-    <%= f.label :aspect_ratio %>
-    <%= f.select :aspect_ratio, options_for_select(Resource::ASPECT_RATIO_TYPES, selected: resource.aspect_ratio) %>
-  </div>
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
+        <%= f.submit 'Update', class: 'btn btn-default' %>
+      </div>
+    </div>
 
-  <div class="actions">
-    <%= f.submit %>
-  </div>
 <% end %>

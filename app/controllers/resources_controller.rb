@@ -1,11 +1,8 @@
 class ResourcesController < ApplicationController
-  before_action :set_resource, only: [:show, :edit, :history, :update, :destroy]
+  before_action :set_resource, only: [:edit, :history, :update, :destroy]
 
   def index
     @resources = Resource.all
-  end
-
-  def show
   end
 
   def edit
@@ -21,7 +18,7 @@ class ResourcesController < ApplicationController
     respond_to do |format|
       if @resource.save
         format.html { redirect_to @resource, notice: 'Resource was successfully created.' }
-        format.json { render :show, status: :created, location: @resource }
+        format.json { render :index, status: :created, location: @resource }
       else
         format.html { render :new }
         format.json { render json: @resource.errors, status: :unprocessable_entity }
@@ -33,7 +30,7 @@ class ResourcesController < ApplicationController
     respond_to do |format|
       if @resource.update(resource_params)
         format.html { redirect_to @resource, notice: 'Resource was successfully updated.' }
-        format.json { render :show, status: :ok, location: @resource }
+        format.json { render :index, status: :ok, location: @resource }
       else
         format.html { render :edit }
         format.json { render json: @resource.errors, status: :unprocessable_entity }
