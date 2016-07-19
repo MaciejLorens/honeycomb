@@ -3,7 +3,7 @@ require 'open-uri'
 module ResourceDownloader
 
   def self.download
-    feed_resources.each do |feed_resource|
+    resource_urls.map do |feed_resource|
       feed_xml_doc = Nokogiri::HTML(open(feed_resource))
 
       delivery_id = feed_xml_doc.at_css('deliveryid deliveryid').content
@@ -19,11 +19,11 @@ module ResourceDownloader
           duration: media_info.at_css('duration').content,
           aspect_ratio: media_info.at_css('aspectratio').content
       )
-    end
+    end.compact.count
   end
 
-  def self.feed_resources
-    Rails.application.secrets[:feed_urls]
+  def self.resource_urls
+    Rails.application.secrets[:resource_urls]
   end
 
 end

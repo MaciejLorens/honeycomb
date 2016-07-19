@@ -1,8 +1,10 @@
+require 'resource_downloader'
+
 class ResourcesController < ApplicationController
   before_action :set_resource, only: [:edit, :history, :update, :destroy]
 
   def index
-    @resources = Resource.all
+    @resources = Resource.all.order(created_at: :asc)
   end
 
   def edit
@@ -23,6 +25,11 @@ class ResourcesController < ApplicationController
   def destroy
     @resource.destroy
     redirect_to resources_url, notice: 'Resource was successfully destroyed.'
+  end
+
+  def download
+    added_resources_count = ResourceDownloader.download
+    redirect_to resources_url, notice: "Successfully downloaded #{added_resources_count} Resource(s)."
   end
 
   private
