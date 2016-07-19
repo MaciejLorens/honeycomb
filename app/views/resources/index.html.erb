@@ -1,37 +1,37 @@
 <% if @resources.empty? %>
-    <h3>Resource list is empty</h3>
+  <h3>Resource list is empty</h3>
 <% else %>
-    <h3>Resources</h3>
+  <h3>Resources</h3>
 
-    <table class="table">
-      <thead>
+  <table class="table">
+    <thead>
+    <tr>
+      <th>Id</th>
+      <th>DeliveryId</th>
+      <th>Title</th>
+      <th>Episode</th>
+      <th>Year</th>
+      <th>Duration</th>
+      <th>Aspect ratio</th>
+      <th colspan="3">Actions</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <% @resources.each do |resource| %>
       <tr>
-        <th>Id</th>
-        <th>DeliveryId</th>
-        <th>Title</th>
-        <th>Episode</th>
-        <th>Year</th>
-        <th>Duration</th>
-        <th>Aspect ratio</th>
-        <th colspan="3">Actions</th>
+        <td><%= resource.id %></td>
+        <td><%= resource.delivery_id %></td>
+        <td><%= resource.title %></td>
+        <td><%= resource.episode %></td>
+        <td><%= resource.year %></td>
+        <td><%= resource.duration %></td>
+        <td><%= resource.aspect_ratio %></td>
+        <td><%= link_to 'Edit', edit_resource_path(resource) %></td>
+        <td><%= link_to 'History', history_resource_path(resource) %></td>
+        <td><%= link_to 'Destroy', resource, method: :delete, data: {confirm: 'Are you sure?'} %></td>
       </tr>
-      </thead>
-
-      <tbody>
-      <% @resources.each do |resource| %>
-          <tr>
-            <td><%= resource.id %></td>
-            <td><%= resource.delivery_id %></td>
-            <td><%= resource.title %></td>
-            <td><%= resource.episode %></td>
-            <td><%= resource.year %></td>
-            <td><%= resource.duration %></td>
-            <td><%= resource.aspect_ratio %></td>
-            <td><%= link_to 'Edit', edit_resource_path(resource) %></td>
-            <td><%= link_to 'History', history_resource_path(resource) %></td>
-            <td><%= link_to 'Destroy', resource, method: :delete, data: {confirm: 'Are you sure?'} %></td>
-          </tr>
-      <% end %>
-      </tbody>
-    </table>
+    <% end %>
+    </tbody>
+  </table>
 <% end %>
