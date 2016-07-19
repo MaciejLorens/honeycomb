@@ -1,0 +1,40 @@
+<h3>Welcome on test project written for Honeycomb company</h3>
+
+<h4>Resources</h4>
+<p>
+  Please navigate to <%= link_to 'Resources', resources_path %> in order to check a list of available advertisement
+  clips.
+</p>
+
+<p>
+  You can also download more available resources using button 'Download Resources'
+  on <%= link_to 'Resources', resources_path %> page.
+</p>
+
+<p>
+  On <%= link_to 'Resources', resources_path %> page you can Edit Destroy and visit History of previous Edits
+</p>
+
+<h4>Resources Endpoints</h4>
+
+<p>
+  You can check Resources list as json here:
+</p>
+
+<ul>
+  <li><%= link_to api_v1_resources_url, api_v1_resources_path(format: 'json') %></li>
+</ul>
+
+<p>
+  You can check History of the resource as json here:
+</p>
+
+<% if Resource.count.zero? %>
+    List of Resources is empty, download them first!
+<% else %>
+  <ul>
+    <% Resource.all.each do |resource| %>
+      <li><%= link_to history_api_v1_resource_url(resource), history_api_v1_resource_path(resource, format: 'json') %></li>
+    <% end %>
+  </ul>
+<% end %>
