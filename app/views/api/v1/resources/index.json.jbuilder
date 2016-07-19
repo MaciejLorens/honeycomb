@@ -1,4 +1,9 @@
 json.array!(@resources) do |resource|
-  json.extract! resource, :id, :delivery_id, :title, :episode, :year, :duration, :aspect_ratio
-  json.history_url history_api_v1_resource_url(resource, format: 'json')
+  json.extract! resource, :id, :supplier_name, :title, :duration
+  json.history do
+    json.array!(resource.audits) do |audit|
+      json.changed_fields audit.audited_changes.keys
+      json.changed_at audit.created_at
+    end
+  end
 end

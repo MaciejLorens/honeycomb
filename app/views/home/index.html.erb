@@ -7,26 +7,37 @@
 </p>
 
 <p>
-  You can also download more available resources using button 'Download Resources'
-  on <%= link_to 'Resources', resources_path %> page.
+  You can also download more available resources using button 'Download Resources' on
+  <%= link_to 'Resources', resources_path %> page.
 </p>
 
 <p>
-  On <%= link_to 'Resources', resources_path %> page you can Edit Destroy and visit History of previous Edits
+  On <%= link_to 'Resources', resources_path %> page you can Edit Destroy and visit History of previous Edits.
 </p>
 
 <h4>Resources Endpoints</h4>
 
 <p>
-  You can check Resources list as json here:
+  You can check Resources list (with basic history) as json here:
 </p>
 
 <ul>
   <li><%= link_to api_v1_resources_url, api_v1_resources_path(format: 'json'), target: '_blank' %></li>
 </ul>
 
+<p>You can check individual Resources (with basic history) here:</p>
+<% if @resources.blank? %>
+  List of Resources is empty, download them first!
+<% else %>
+  <ul>
+    <% @resources.each do |resource| %>
+      <li><%= link_to api_v1_resource_url(resource), api_v1_resource_path(resource, format: 'json'), target: '_blank' %></li>
+    <% end %>
+  </ul>
+<% end %>
+
 <p>
-  You can check History of the resource as json here:
+  You can check detailed History of the resource as json here:
 </p>
 
 <% if @resources.blank? %>

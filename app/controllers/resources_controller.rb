@@ -1,5 +1,3 @@
-require 'resource_downloader'
-
 class ResourcesController < ApplicationController
   before_action :set_resource, only: [:edit, :history, :update, :destroy]
 
