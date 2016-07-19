@@ -22,7 +22,7 @@
 </p>
 
 <ul>
-  <li><%= link_to api_v1_resources_url, api_v1_resources_path(format: 'json') %></li>
+  <li><%= link_to api_v1_resources_url, api_v1_resources_path(format: 'json'), target: '_blank' %></li>
 </ul>
 
 <p>
@@ -34,7 +34,7 @@
 <% else %>
   <ul>
     <% Resource.all.each do |resource| %>
-      <li><%= link_to history_api_v1_resource_url(resource), history_api_v1_resource_path(resource, format: 'json') %></li>
+      <li><%= link_to history_api_v1_resource_url(resource), history_api_v1_resource_path(resource, format: 'json'), target: '_blank' %></li>
     <% end %>
   </ul>
 <% end %>
