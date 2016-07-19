@@ -28,8 +28,8 @@ class ResourcesController < ApplicationController
   end
 
   def download
-    added_resources_count = ResourceDownloader.download
-    redirect_to resources_url, notice: "Successfully downloaded #{added_resources_count} Resource(s)."
+    ResourceDownloader.delay.download
+    redirect_to resources_url, notice: 'Downloading Resources is pending, please refresh page in a while.'
   end
 
   private

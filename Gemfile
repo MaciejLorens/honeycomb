@@ -13,6 +13,8 @@ gem 'jbuilder', '~> 2.5'
 
 gem 'hirb'
 gem 'twitter-bootstrap-rails'
+gem 'delayed_job_active_record'
+gem 'daemons'
 
 gem 'audited', github: 'collectiveidea/audited'
 gem 'rails-observers', github: 'rails/rails-observers'
