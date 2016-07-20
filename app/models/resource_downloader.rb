@@ -2,47 +2,63 @@ require 'open-uri'
 
 class ResourceDownloader
 
+  def initialize
+  end
+
   def self.download
-    resource_urls.each do |feed_resource|
-      feed_xml_doc = Nokogiri::HTML(open(feed_resource))
+    instance = self.new
+    instance.download
+  end
 
-
-      delivery_id_node = feed_xml_doc.at_css('deliveryid')
-      filename_node = feed_xml_doc.at_css('filename')
-      resolution_node = feed_xml_doc.at_css('resolution')
-      supplier_info_node = feed_xml_doc.at_css('supplierinfo')
-      media_info_node = feed_xml_doc.at_css('mediainfo')
-      video_configuration_node = feed_xml_doc.at_css('videoconfiguration')
-      audio_configuration_node = feed_xml_doc.at_css('audioconfiguration')
-
-      delivery_id = delivery_id_node.at_css('deliveryid').content
-      next if Resource.find_by(delivery_id: delivery_id).present?
-
-      Resource.create(
-          delivery_id: delivery_id,
-          filename: filename_node.at_css('filename').content,
-          resolution: resolution_node.at_css('resolution').content,
-          supplier_name: supplier_info_node.at_css('suppliername').try(:content) ||
-                         supplier_info_node.at_css('supplierinfo').try(:content),
-          delivery_date: supplier_info_node.at_css('deliverydate').content,
-          title: media_info_node.at_css('title').content,
-          episode: media_info_node.at_css('episode').content,
-          year: media_info_node.at_css('year').content,
-          som: media_info_node.at_css('som').content,
-          eom: media_info_node.at_css('eom').content,
-          duration: media_info_node.at_css('duration').content,
-          aspect_ratio: media_info_node.at_css('aspectratio').content,
-          material_type: media_info_node.at_css('materialtype').content,
-          delivery_channel_group: media_info_node.at_css('deliverychannelgroup').content,
-          format: video_configuration_node.at_css('format').content,
-          audio_track_1: audio_configuration_node.at_css('audiotrack1').content,
-          audio_track_2: audio_configuration_node.at_css('audiotrack2').content,
-      )
+  def download
+    case resource_download_strategy
+    when 'xml_urls' then download_from_xml_urls
+    else
+       raise "unknown #{resource_download_strategy} resource download strategy"
     end
   end
 
-  def self.resource_urls
-    Rails.application.secrets[:resource_urls]
+  private
+
+  def download_from_xml_urls
+    resource_xml_urls.each do |resource_xml_url|
+      Resource.create(resource_attributes_from_xml(resource_xml_url))
+    end
+  end
+
+  def resource_attributes_from_xml(resource_xml_url)
+    xml_doc = Nokogiri::HTML(open(resource_xml_url))
+    delivery_id = xml_doc.at_css('deliveryid deliveryid').content
+    return if Resource.find_by(delivery_id: delivery_id).present?
+
+    {
+      delivery_id:            delivery_id,
+      filename:               xml_doc.at_css('filename filename').content,
+      resolution:             xml_doc.at_css('resolution resolution').content,
+      supplier_name:          xml_doc.at_css('supplierinfo suppliername').try(:content) ||
+                              xml_doc.at_css('supplierinfo supplierinfo').try(:content),
+      delivery_date:          xml_doc.at_css('supplierinfo deliverydate').content,
+      title:                  xml_doc.at_css('mediainfo title').content,
+      episode:                xml_doc.at_css('mediainfo episode').content,
+      year:                   xml_doc.at_css('mediainfo year').content,
+      som:                    xml_doc.at_css('mediainfo som').content,
+      eom:                    xml_doc.at_css('mediainfo eom').content,
+      duration:               xml_doc.at_css('mediainfo duration').content,
+      aspect_ratio:           xml_doc.at_css('mediainfo aspectratio').content,
+      material_type:          xml_doc.at_css('mediainfo materialtype').content,
+      delivery_channel_group: xml_doc.at_css('mediainfo deliverychannelgroup').content,
+      format:                 xml_doc.at_css('videoconfiguration format').content,
+      audio_track_1:          xml_doc.at_css('audioconfiguration audiotrack1').content,
+      audio_track_2:          xml_doc.at_css('audioconfiguration audiotrack2').content
+    }
+  end
+
+  def resource_download_strategy
+    Rails.application.secrets[:resource_download_strategy]
+  end
+
+  def resource_xml_urls
+    Rails.application.secrets[:resource_xml_urls]
   end
 
 end
