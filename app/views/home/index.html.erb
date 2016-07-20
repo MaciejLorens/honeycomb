@@ -35,17 +35,3 @@
     <% end %>
   </ul>
 <% end %>
-
-<p>
-  You can check detailed History of the resource as json here:
-</p>
-
-<% if @resources.blank? %>
-  List of Resources is empty, download them first!
-<% else %>
-  <ul>
-    <% @resources.each do |resource| %>
-      <li><%= link_to history_api_v1_resource_url(resource), history_api_v1_resource_path(resource, format: 'json'), target: '_blank' %></li>
-    <% end %>
-  </ul>
-<% end %>

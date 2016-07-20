@@ -9,9 +9,7 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      resources :resources, only: [:index, :show] do
-        get :history, on: :member
-      end
+      resources :resources, only: [:index, :show]
     end
   end
 
