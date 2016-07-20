@@ -22,8 +22,8 @@ class ResourceDownloader
           delivery_id: delivery_id,
           filename: filename_node.at_css('filename').content,
           resolution: resolution_node.at_css('resolution').content,
-          supplier_name: supplier_info_node.at_css('suppliername').try(:content),
-          supplier_info: supplier_info_node.at_css('supplierinfo').try(:content),
+          supplier_name: supplier_info_node.at_css('suppliername').try(:content) ||
+                         supplier_info_node.at_css('supplierinfo').try(:content),
           delivery_date: supplier_info_node.at_css('deliverydate').content,
           title: media_info_node.at_css('title').content,
           episode: media_info_node.at_css('episode').content,

@@ -5,7 +5,6 @@ class CreateResources < ActiveRecord::Migration[5.0]
       t.string :filename
       t.string :resolution
       t.string :supplier_name
-      t.string :supplier_info
       t.string :delivery_date
       t.string :title
       t.string :episode

@@ -98,6 +98,7 @@ a {
 }
 
 h3 {
+  margin-top: 50px;
   margin-bottom: 35px;
 }
 
@@ -116,4 +117,10 @@ ul {
 .logo img {
   width: 120px;
   margin-top: -10px;
+}
+
+.alert {
+  position: absolute;
+  width: 1140px;
+  padding: 10px 20px;
 }

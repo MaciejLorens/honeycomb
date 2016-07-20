@@ -5,4 +5,3 @@ json.history do
     json.changed_at audit.created_at
   end
 end
-

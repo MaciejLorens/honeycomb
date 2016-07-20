@@ -57,7 +57,6 @@ ActiveRecord::Schema.define(version: 20160719130453) do
     t.string   "filename"
     t.string   "resolution"
     t.string   "supplier_name"
-    t.string   "supplier_info"
     t.string   "delivery_date"
     t.string   "title"
     t.string   "episode"
